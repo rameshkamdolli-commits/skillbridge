@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Login | SkillBridge</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+        .container {
+            max-width: 400px;
+            margin: 70px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px #00000012;
+        }
+        h1 { color: #2563eb; }
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin: 8px 0 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+        }
+        label { font-weight: bold; }
+        button {
+            width: 100%;
+            padding: 13px;
+            background: #2563eb;
+            color: white;
+            border: 0;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        a { color: #2563eb; }
+        .messages { color: #b91c1c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SkillBridge</h1>
+        <h2>Recruiter Login</h2>
+        <p>Sign in to manage your job postings.</p>
+
+        {% for message in messages %}
+            <p class="messages">{{ message }}</p>
+        {% endfor %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label for="username">Username</label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                autocomplete="username"
+                required
+            >
+
+            <label for="password">Password</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                autocomplete="current-password"
+                required
+            >
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p>New recruiter?
+            <a href="{% url 'recruiter_register' %}">Create an account</a>
+        </p>
+        <p><a href="{% url 'home' %}">Back to Home</a></p>
+    </div>
+</body>
+</html>

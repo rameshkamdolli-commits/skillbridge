@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join SkillBridge</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            padding: 30px 15px;
+        }
+
+        .card {
+            max-width: 450px;
+            margin: auto;
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px #0001;
+        }
+
+        h1 {
+            color: #172554;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px;
+            margin: 7px 0 15px;
+            box-sizing: border-box;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: 0;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .errorlist {
+            color: #dc2626;
+        }
+
+        a {
+            color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>Join SkillBridge</h1>
+    <p>Create your student account.</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Full Name</label>
+        <input type="text" name="full_name" required>
+
+        <label>College</label>
+        <input type="text" name="college">
+
+        <label>Skills (comma-separated)</label>
+        <input type="text" name="skills"
+               placeholder="Python, SQL, HTML, CSS" required>
+
+        <label>Username</label>
+        {{ form.username }}
+        {{ form.username.errors }}
+
+        <label>Password</label>
+        {{ form.password1 }}
+        {{ form.password1.errors }}
+
+        <label>Confirm Password</label>
+        {{ form.password2 }}
+        {{ form.password2.errors }}
+
+        {{ form.non_field_errors }}
+
+        <button type="submit">Create Account</button>
+    </form>
+
+    <p>Already registered?
+       <a href="/login/">Login here</a>
+    </p>
+
+    <p><a href="/">Back to Home</a></p>
+</div>
+</body>
+</html>

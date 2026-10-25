@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Registration | SkillBridge</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+        .container {
+            max-width: 430px;
+            margin: 45px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px #00000012;
+        }
+        h1 { color: #2563eb; margin-bottom: 8px; }
+        .subtitle { color: #64748b; margin-bottom: 24px; }
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin: 7px 0 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+        }
+        label { font-weight: bold; }
+        button {
+            width: 100%;
+            padding: 13px;
+            background: #2563eb;
+            color: white;
+            border: 0;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        a { color: #2563eb; }
+        .errorlist { color: #dc2626; }
+        .messages { color: #b91c1c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SkillBridge</h1>
+        <h2>Recruiter Registration</h2>
+        <p class="subtitle">Create an account to post jobs and find talent.</p>
+
+        {% for message in messages %}
+            <p class="messages">{{ message }}</p>
+        {% endfor %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label for="company_name">Company Name</label>
+            <input
+                type="text"
+                id="company_name"
+                name="company_name"
+                placeholder="Enter company name"
+                value="{{ request.POST.company_name|default:'' }}"
+                required
+            >
+
+            <label for="phone">Phone Number (optional)</label>
+            <input
+                type="text"
+                id="phone"
+                name="phone"
+                placeholder="Enter phone number"
+                value="{{ request.POST.phone|default:'' }}"
+            >
+
+            <label for="id_username">Username</label>
+            <input
+                type="text"
+                id="id_username"
+                name="username"
+                value="{{ form.username.value|default:'' }}"
+                required
+            >
+            {{ form.username.errors }}
+
+            <label for="id_password1">Password</label>
+            <input
+                type="password"
+                id="id_password1"
+                name="password1"
+                required
+            >
+            {{ form.password1.errors }}
+
+            <label for="id_password2">Confirm Password</label>
+            <input
+                type="password"
+                id="id_password2"
+                name="password2"
+                required
+            >
+            {{ form.password2.errors }}
+
+            <button type="submit">Create Recruiter Account</button>
+        </form>
+
+        <p>Already registered?
+            <a href="{% url 'recruiter_login' %}">Recruiter Login</a>
+        </p>
+        <p><a href="{% url 'home' %}">Back to Home</a></p>
+    </div>
+</body>
+</html>

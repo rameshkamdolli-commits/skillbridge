@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SkillBridge - Job Matches</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            padding: 30px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+        .job-card {
+            background: white;
+            padding: 20px;
+            margin: 16px 0;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ddd;
+        }
+        .percentage {
+            color: green;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>SkillBridge — Smart Job Matches</h1>
+    <p><a href="/">Back to Home</a></p>
+
+    {% for result in results %}
+    <div class="job-card">
+        <h2>{{ result.job.title }}</h2>
+        <h3>{{ result.job.company }}</h3>
+        <p>Location: {{ result.job.location }}</p>
+        <p>Salary: {{ result.job.salary }}</p>
+        <p class="percentage">{{ result.percentage }}% Match</p>
+        <p>Matched skills: {{ result.matched_skills|join:", " }}</p>
+    </div>
+    
+
+<form method="POST" action="{% url 'apply_job' result.job.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">
+        Apply Now
+    </button>
+</form>
+
+
+    
+    {% empty %}
+    <div class="job-card">
+        <h2>No matches to display yet</h2>
+        <p>Add a student profile and job through Django Admin.</p>
+    </div>
+    {% endfor %}
+</div>
+</body>
+</html>

@@ -1,0 +1,147 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicants | SkillBridge</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 22px 7%;
+        }
+        main {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 18px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #0000000a;
+        }
+        .muted { color: #64748b; }
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 6px;
+            background: #dbeafe;
+        }
+        button, a {
+            display: inline-block;
+            padding: 10px 13px;
+            border: 0;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 5px 4px 5px 0;
+        }
+        button { color: white; background: #2563eb; }
+        .reject { background: #dc2626; }
+        .pending { background: #64748b; }
+        .back { background: #e2e8f0; color: #1e293b; }
+        .message { background: #dbeafe; padding: 10px; border-radius: 6px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>SkillBridge — Applicants</h1>
+    <p>{{ job.title }} at {{ job.company }}</p>
+</header>
+
+<main>
+    {% for message in messages %}
+        <p class="message">{{ message }}</p>
+    {% endfor %}
+
+    <section class="card">
+        <h2>Applicant List</h2>
+        <p class="muted">Review applications for this job listing.</p>
+        <a class="back" href="{% url 'recruiter_dashboard' %}">
+            Back to Dashboard
+        </a>
+    </section>
+
+    {% for application in applications %}
+        <section class="card">
+            <h3>
+                {{ application.student.full_name|default:application.student.user.username }}
+            </h3>
+
+            <p><strong>College:</strong>
+                {{ application.student.college|default:"Not provided" }}
+            </p>
+
+            <p><strong>Degree:</strong>
+                {{ application.student.degree|default:"Not provided" }}
+            </p>
+
+            <p><strong>Skills:</strong>
+                {{ application.student.skills|default:"Not provided" }}
+            </p>
+
+            <p><strong>Applied:</strong> {{ application.applied_at }}</p>
+
+            <p><strong>Status:</strong>
+                <span class="status">{{ application.status }}</span>
+            </p>
+
+            <form method="POST"
+                  action="{% url 'update_application_status' application.id %}">
+                {% csrf_token %}
+
+                <button type="submit" name="status" value="Accepted">
+                    Accept
+                </button>
+
+                <button type="submit" name="status" value="Rejected"
+                        class="reject">
+                    Reject
+                </button>
+
+                <button type="submit" name="status" value="Pending"
+                        class="pending">
+                    Set Pending
+                </button>
+            </form>
+        </section>
+    {% empty %}
+        <section class="card">
+            <h3>No applications yet</h3>
+            <p class="muted">
+                Student applications for this job will appear here.
+            </p>
+        </section>
+    {% endfor %}
+
+<p><strong>Resume:</strong>
+    {% if application.student.resume %}
+        <a href="{{ application.student.resume.url }}"
+           target="_blank"
+           rel="noopener noreferrer">
+            View / Download Resume
+        </a>
+    {% else %}
+        Not uploaded
+    {% endif %}
+</p>
+
+    <a href="{% url 'recruiter_applicants' job.id %}"
+   style="display:inline-block; padding:10px 15px; background:#2563eb; color:white; border-radius:7px; text-decoration:none;">
+    View Applicants
+</a>
+
+
+</main>
+</body>
+</html>
+```

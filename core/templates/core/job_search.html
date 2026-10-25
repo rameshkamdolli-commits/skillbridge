@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SkillBridge | Search Jobs</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+        header {
+            background: #172554;
+            color: white;
+            padding: 22px 7%;
+        }
+        nav a {
+            color: white;
+            margin-right: 18px;
+            text-decoration: none;
+        }
+        main {
+            max-width: 950px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 18px;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px #0f172a0b;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 6px 0 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+        }
+        button, .button {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 11px 16px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .muted { color: #64748b; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>SkillBridge</h1>
+    <p>Find your next opportunity.</p>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'student_dashboard' %}">Dashboard</a>
+        <a href="{% url 'my_applications' %}">My Applications</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Search Jobs</h2>
+
+    <div class="card">
+        <form method="GET" action="{% url 'job_search' %}">
+            <label for="q">Job title, company, or skill</label>
+            <input id="q" name="q" value="{{ query }}"
+                   placeholder="e.g. Python Developer">
+
+            <label for="location">Location</label>
+            <input id="location" name="location"
+                   value="{{ location }}"
+                   placeholder="e.g. Bengaluru">
+
+            <button type="submit">Search Jobs</button>
+            <a class="button" href="{% url 'job_search' %}">Clear</a>
+        </form>
+    </div>
+
+    <h3>Available Jobs</h3>
+
+   {% if job.id in applied_job_ids %}
+    <button type="button" disabled class="button">
+        Already Applied ✓
+    </button>
+{% else %}
+    <form method="POST" action="{% url 'apply_job' job.id %}">
+        {% csrf_token %}
+        <button type="submit" class="button">
+            Apply Now
+        </button>
+    </form>
+{% endif %}
+</main>
+</body>
+</html>

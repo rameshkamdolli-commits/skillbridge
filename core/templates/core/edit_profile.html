@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile | SkillBridge</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            padding: 30px 15px;
+        }
+        .container {
+            max-width: 520px;
+            margin: 30px auto;
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px #0001;
+        }
+        h1 { color: #1d4ed8; }
+        label { display: block; margin-top: 16px; font-weight: bold; }
+        input, textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin-top: 7px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+        }
+        button, .back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 18px;
+            border: 0;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .back { background: #64748b; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Edit Your Profile</h1>
+    <p>Keep your skills updated to get better job matches.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Full Name</label>
+        <input type="text" name="full_name"
+               value="{{ profile.full_name }}" required>
+
+        <label>College</label>
+        <input type="text" name="college"
+               value="{{ profile.college }}">
+
+        <label>Degree</label>
+        <input type="text" name="degree"
+               value="{{ profile.degree }}" required>
+
+        <label>Skills (comma-separated)</label>
+        <textarea name="skills" rows="4" required>{{ profile.skills }}</textarea>
+
+        <button type="submit">Save Changes</button>
+        <a class="back" href="{% url 'student_dashboard' %}">Cancel</a>
+    </form>
+</div>
+</body>
+</html>

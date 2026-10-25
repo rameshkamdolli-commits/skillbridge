@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Applications | SkillBridge</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+            margin: 0;
+            padding: 25px;
+        }
+        main {
+            max-width: 850px;
+            margin: 20px auto;
+        }
+        .card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 16px;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px #0001;
+        }
+        .status {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+        a { color: #2563eb; }
+    </style>
+</head>
+<body>
+<main>
+    <h1>📋 My Applications</h1>
+    <p>Track your job applications here.</p>
+
+    <p><a href="{% url 'student_dashboard' %}">← Back to Dashboard</a></p>
+
+    {% for application in applications %}
+        <div class="card">
+            <h2>{{ application.job.title }}</h2>
+            <p><strong>Company:</strong> {{ application.job.company }}</p>
+            <p><strong>Location:</strong> {{ application.job.location }}</p>
+            <p><strong>Applied on:</strong> {{ application.applied_at|date:"d M Y, H:i" }}</p>
+            <p>
+                <strong>Status:</strong>
+                <span class="status">{{ application.status }}</span>
+            </p>
+        </div>
+    {% empty %}
+        <div class="card">
+            <h3>No applications yet</h3>
+            <p>Visit the home page and apply for a job to see it here.</p>
+            <a href="{% url 'home' %}">Explore Jobs</a>
+        </div>
+    {% endfor %}
+</main>
+</body>
+</html>

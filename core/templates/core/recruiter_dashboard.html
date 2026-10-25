@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Dashboard | SkillBridge</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 22px 7%;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .top, .job {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 15px #0000000a;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        a, button {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 7px;
+            text-decoration: none;
+            border: 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .danger {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .muted {
+            color: #64748b;
+        }
+
+        .message {
+            padding: 10px;
+            background: #dbeafe;
+            border-radius: 7px;
+        }
+
+        .job h3 {
+            margin-top: 0;
+        }
+
+        .job-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .applicants {
+            background: #2563eb;
+            color: white;
+        }
+
+        .empty {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>SkillBridge Recruiter Portal</h1>
+    <p>Welcome, {{ profile.company_name }}</p>
+</header>
+
+<main>
+
+    {% for message in messages %}
+        <p class="message">{{ message }}</p>
+    {% endfor %}
+
+    <section class="top">
+        <div>
+            <h2>Your Dashboard</h2>
+            <p class="muted">
+                Manage the jobs posted by your company.
+            </p>
+        </div>
+
+        <a class="primary" href="{% url 'post_job' %}">
+            + Post a Job
+        </a>
+    </section>
+
+    <h2>Your Job Listings ({{ jobs|length }})</h2>
+
+    {% for job in jobs %}
+
+        <div class="job">
+            <h3>{{ job.title }}</h3>
+
+            <p>
+                <strong>Company:</strong> {{ job.company }}
+            </p>
+
+            <p>
+                <strong>Location:</strong> {{ job.location }}
+            </p>
+
+            <p>
+                <strong>Salary:</strong> {{ job.salary }}
+            </p>
+
+            <p>
+                <strong>Required Skills:</strong>
+                {{ job.required_skills }}
+            </p>
+
+            <div class="job-actions">
+                <a
+                    class="applicants"
+                    href="{% url 'recruiter_applicants' job.id %}">
+                    View Applicants
+                </a>
+            </div>
+        </div>
+
+    {% empty %}
+
+        <div class="empty">
+            <p>You have not posted any jobs yet.</p>
+            <p>Click <strong>Post a Job</strong> to add your first listing.</p>
+        </div>
+
+    {% endfor %}
+
+    <p>
+        <a href="{% url 'home' %}">Back to Home</a>
+    </p>
+
+    <form method="POST" action="{% url 'recruiter_logout' %}">
+        {% csrf_token %}
+        <button class="danger" type="submit">Logout</button>
+    </form>
+
+</main>
+
+</body>
+</html>

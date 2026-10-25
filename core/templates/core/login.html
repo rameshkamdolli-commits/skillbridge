@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillBridge Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            padding: 30px 15px;
+        }
+        .card {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px #0001;
+        }
+        h1 { color: #172554; text-align: center; }
+        input {
+            width: 100%;
+            padding: 11px;
+            margin: 7px 0 15px;
+            box-sizing: border-box;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: 0;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+        .error { color: #dc2626; }
+        a { color: #2563eb; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>Welcome Back!</h1>
+
+    {% for message in messages %}
+        <p class="error">{{ message }}</p>
+    {% endfor %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Username</label>
+        <input type="text" name="username" required>
+
+        <label>Password</label>
+        <input type="password" name="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p>New student? <a href="/register/">Create an account</a></p>
+    <p><a href="/">Back to Home</a></p>
+</div>
+</body>
+</html>
